@@ -1,0 +1,7 @@
+.jokes {
+    display: flex;
+}
+
+.jokes li {
+    list-style-type: none;
+}

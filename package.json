@@ -7,6 +7,7 @@
     "url": "git@github.com:mrkosima/chuck-norris-jokes.git"
   },
   "author": "Kanstantsin Klimashevich <klimashevich.k@gmail.com>",
+  "licence": "UNLICENSE",
   "dependencies": {
     "@types/jest": "24.0.11",
     "@types/node": "11.13.8",
