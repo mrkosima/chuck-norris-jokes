@@ -1,21 +1,16 @@
-* {
-  padding: 0;
-  margin: 0;
-}
-
-html {
-  background-color: #282c34;
+header {
+  height: 100px;
+  background-image: url("./assets/chucknorris-bg.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .app {
   width: 100%;
-  max-width: 768px;
   margin: 0 auto;
-  text-align: center;
-  min-height: 100vh;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  color: white;
+  justify-content: flex-start;
+  color: #886740;
   display: flex;
 }

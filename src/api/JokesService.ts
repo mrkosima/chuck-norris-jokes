@@ -19,7 +19,7 @@ const fetchApi = <T>(path: string): Promise<T> =>
         return response.value;
       }
       return Promise.reject(response.value);
-    });
+    })
 
 const apiJokeToJoke = (joke: ApiJoke): Joke => ({
   id: joke.id,

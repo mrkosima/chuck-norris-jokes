@@ -1,27 +1,74 @@
-import React, { useContext } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
+
+import { fetchRandomJokes } from "../api/JokesService";
+import { ItemsList } from "../common/ItemsList";
+import { FavoriteJoke } from "./FavoriteJoke";
 import { FavoriteJokesContext } from "./FavoriteJokesProvider";
-import { LoadableJoke } from "./LoadableJoke";
-import { Joke } from "../types";
 
-import "./FavoriteJokes.css";
-import { JokeItem } from "./JokeItem";
+type NewFavoriteByTimeout = {
+  timerTurnedOn: boolean;
+  timerEnabled: boolean;
+  onTimerChange: () => void;
+};
 
-export const FavoriteJokes = () => {
-  const favoriteJokesContext = useContext(FavoriteJokesContext);
-  const renderFavotiteJoke = (joke: Joke) => (
-    <JokeItem
-      joke={joke}
-      selected={true}
-      onSelectedChange={favoriteJokesContext.toggleId}
-    />
-  );
+const useNewFavoriteByTimeout = (timerDelay: number): NewFavoriteByTimeout => {
+  const [timerOn, timerOnChange] = useState<boolean>(false);
+  const { add, maxLimitReached } = useContext(FavoriteJokesContext);
+  useEffect(() => {
+    if (timerOn && !maxLimitReached) {
+      let timeout: number;
+      let fetchingFavorite = false;
+
+      const schedule = () => {
+        timeout = window.setTimeout(() => {
+          fetchingFavorite = true;
+          fetchRandomJokes(1).then(jokes => {
+            if (fetchingFavorite) {
+              jokes.forEach(joke => add(joke.id));
+            }
+          });
+        }, timerDelay);
+      };
+
+      schedule();
+
+      return () => {
+        clearTimeout(timeout);
+        fetchingFavorite = false;
+      };
+    }
+  }, [timerOn, maxLimitReached, timerDelay, add]);
+
+  const onTimerEnableChange = () => {
+    timerOnChange(!timerOn);
+  };
+  return {
+    timerTurnedOn: timerOn,
+    timerEnabled: maxLimitReached,
+    onTimerChange: onTimerEnableChange
+  };
+};
+
+export const FavoriteJokes: FC<{ newFavoriteDelay: number }> = ({
+  newFavoriteDelay
+}) => {
+  const { ids } = useContext(FavoriteJokesContext);
+  const {
+    timerTurnedOn,
+    timerEnabled,
+    onTimerChange
+  } = useNewFavoriteByTimeout(newFavoriteDelay);
+
   return (
-    <div className="favorite-jokes">
-      {favoriteJokesContext.ids.length
-        ? favoriteJokesContext.ids.map(id => (
-            <LoadableJoke key={id} id={id} render={renderFavotiteJoke} />
-          ))
-        : "No Favorite"}
-    </div>
+    <>
+      <button
+        className="button timeout-button"
+        disabled={timerEnabled}
+        onClick={() => onTimerChange()}
+      >
+        {timerTurnedOn ? "Stop Timer" : "Start Timer"}
+      </button>
+      <ItemsList items={ids} render={jokeId => <FavoriteJoke id={jokeId} />} />
+    </>
   );
 };

@@ -1,0 +1,18 @@
+.star-button {
+  display: inline-block;
+  margin: 5px;
+  padding: 0;
+  background: none;
+  border: none;
+  height: 2.5em;
+  width: 2.5em;
+  color: rgba(72, 41, 21, 0.8);
+}
+
+.star-button.active {
+  color: rgb(233, 109, 34);
+}
+
+.star-button:disabled {
+  color: rgba(0, 0, 0, 0.1);
+}

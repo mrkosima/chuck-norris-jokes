@@ -1,28 +1,52 @@
-import React, { createContext, FC, useState } from 'react';
+import React, { createContext, FC } from "react";
 
-export interface TodoType {
+import { useSavedListInStorage } from "../common/useSavedListInStorage";
+import { Loader } from "../common/Loader";
+
+export interface FavoriteJokesContextType {
   ids: number[];
-  toggleId: (id: number) => void;
+  add: (id: number) => void;
+  remove: (id: number) => void;
+  toggle: (id: number) => void;
+  maxLimitReached: boolean;
 }
-export const FavoriteJokesContext = createContext<TodoType>({
+export const FavoriteJokesContext = createContext<FavoriteJokesContextType>({
   ids: [],
-  toggleId: (id: number) => console.warn(`Hoho, should not be triggered ${id}`)
+  add: () => {},
+  remove: () => {},
+  toggle: () => {},
+  maxLimitReached: false
 });
 
-export const FavoriteJokesProvider: FC<{}> = props => {
-  const [ids, setIds] = useState<number[]>([]);
+const FAVORITE_JOKES_STORAGE_KEY = "favoriteJokesIds";
 
-  const toggleId = (jokeId: number) => {
-    if (ids.indexOf(jokeId) >= 0) {
-        setIds(ids.filter(id => jokeId !== id));
-      } else {
-        setIds([...ids, jokeId]);
-      }
-  };
+export const FavoriteJokesProvider: FC<{ maxFavorite: number }> = ({
+  maxFavorite, children
+}) => {
+  const {
+    initialized,
+    items,
+    add,
+    remove,
+    toggle,
+    maxReached
+  } = useSavedListInStorage<number>(FAVORITE_JOKES_STORAGE_KEY, maxFavorite);
+
+  if (initialized) {
+    return <Loader />;
+  }
 
   return (
-    <FavoriteJokesContext.Provider value={{ ids: ids, toggleId: toggleId }}>
-      {props.children}
+    <FavoriteJokesContext.Provider
+      value={{
+        ids: items,
+        add: add,
+        remove: remove,
+        toggle: toggle,
+        maxLimitReached: maxReached
+      }}
+    >
+      {children}
     </FavoriteJokesContext.Provider>
   );
 };

@@ -1,0 +1,15 @@
+.items-list {
+  text-align: start;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.items-list .items-list-item {
+  border-bottom: 1px dashed rgba(72, 41, 21, 0.8);
+  box-sizing: border-box;
+  font-weight: 400;
+  width: 100%;
+
+  margin: 10px 0 0 0;
+}

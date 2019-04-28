@@ -1,7 +1,49 @@
 .jokes {
-    display: flex;
+  width: 100%;
+  height: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-around;
 }
 
-.jokes li {
-    list-style-type: none;
+.jokes-content {
+  flex: 1;
+  padding: 20px 30px 0 30px;
+  text-align: center;
+}
+
+.jokes-content-title {
+  font-size: 1.5em;
+}
+
+.joke-item {
+  display: flex;
+  align-items: center;
+  padding: 1em 0;
+}
+
+.button {
+  width: 100%;
+  padding: 0.7em;
+  font-size: 1em;
+  border: none;
+}
+
+.refresh-button {
+  background-color: #f4aa1b;
+}
+.refresh-button:hover {
+  background-color: #f4aa1b;
+}
+
+.timeout-button {
+  background-color: #e96d23;
+}
+
+.timeout-button:hover {
+  background-color: #ec7732;
+}
+
+.timeout-button:disabled {
+  background-color: rgba(0, 0, 0, 0.1);
 }
