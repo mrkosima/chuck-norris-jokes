@@ -1,1 +1,3 @@
-export { Jokes } from "./Jokes";
+import { Jokes } from "./Jokes";
+
+export default Jokes;

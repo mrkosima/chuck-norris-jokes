@@ -18,7 +18,7 @@ export const FavoriteJokesContext = createContext<FavoriteJokesContextType>({
   maxLimitReached: false
 });
 
-const FAVORITE_JOKES_STORAGE_KEY = "favoriteJokesIds";
+const FAVORITE_JOKES_STORAGE_KEY = "favorite-jokes-ids";
 
 export const FavoriteJokesProvider: FC<{ maxFavorite: number }> = ({
   maxFavorite,
