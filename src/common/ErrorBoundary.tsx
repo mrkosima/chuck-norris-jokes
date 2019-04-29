@@ -1,6 +1,6 @@
 import React from "react";
 /**
- * Error boundary is implemented with class because there's no equivalent hook for componentDidCatch yet
+ * Error boundary is implemented with class because there"s no equivalent hook for componentDidCatch yet
  * https://reactjs.org/docs/hooks-faq.html#do-hooks-cover-all-use-cases-for-classes
  */
 export class ErrorBoundary extends React.Component {

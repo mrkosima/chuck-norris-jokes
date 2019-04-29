@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export interface SavedList<T> {
   initialized: boolean;
@@ -19,43 +19,47 @@ export const useSavedListInStorage = <T>(
   maxCount: number = -1
 ): SavedList<T> => {
   const [items, setItems] = useState<T[]>([]);
-  const [initialized, setInitialized] = useState<boolean>(true);
+  const [initialized, setInitialized] = useState<boolean>(false);
 
   useEffect(() => {
-    try {
-      const savedList = localStorage.getItem(storageKey);
-      if (savedList) {
-        const parsedSavedList = JSON.parse(savedList);
-        setItems(parsedSavedList);
-      }
-    } finally {
-      setInitialized(false);
+    const savedList = localStorage.getItem(storageKey);
+    if (savedList) {
+      const parsedSavedList = JSON.parse(savedList);
+      setItems(parsedSavedList);
     }
+    setInitialized(true);
   }, [storageKey]);
 
-  const add = (item: T) => {
-    if (items.indexOf(item) < 0 && items.length < maxCount) {
-      const state = [...items, item];
-      localStorage.setItem(storageKey, JSON.stringify(state));
-      setItems(state);
+  useEffect(() => {
+    if (initialized) {
+      localStorage.setItem(storageKey, JSON.stringify(items));
     }
-  };
+  }, [items, initialized, storageKey]);
 
-  const remove = (item: T) => {
-    if (items.indexOf(item) >= 0) {
-      const state = items.filter(id => item !== id);
-      localStorage.setItem(storageKey, JSON.stringify(state));
-      setItems(state);
-    }
-  };
+  const add = useCallback(
+    (item: T) => {
+      setItems(oldItems =>
+        !oldItems.includes(item) && oldItems.length < maxCount
+          ? [...oldItems, item]
+          : oldItems
+      );
+    },
+    [maxCount]
+  );
 
-  const toggle = (item: T) => {
-    if (items.indexOf(item) < 0) {
-      add(item);
-    } else {
-      remove(item);
-    }
-  };
+  const remove = useCallback((item: T) => {
+    setItems(oldItems =>
+      oldItems.includes(item) ? oldItems.filter(id => item !== id) : oldItems
+    );
+  }, []);
+
+  const toggle = useCallback((item: T) => {
+    setItems(oldItems =>
+      oldItems.includes(item)
+        ? oldItems.filter(id => id !== item)
+        : [...oldItems, item]
+    );
+  }, []);
 
   return {
     initialized,
@@ -63,6 +67,6 @@ export const useSavedListInStorage = <T>(
     add,
     remove,
     toggle,
-    maxReached: maxCount >= 0 && items.length >= maxCount,
+    maxReached: maxCount >= 0 && items.length >= maxCount
   };
 };

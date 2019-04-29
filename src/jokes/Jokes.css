@@ -40,10 +40,25 @@
   background-color: #e96d23;
 }
 
+.timeout-button.active {
+  background-color: #f4aa1b;
+  animation: pulseKeyFrames 1s infinite; 
+}
+
 .timeout-button:hover {
   background-color: #ec7732;
 }
 
 .timeout-button:disabled {
   background-color: rgba(0, 0, 0, 0.1);
+}
+
+@keyframes pulseKeyFrames {
+  from,
+  to {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
 }

@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useCallback } from "react";
 import { Joke, Jokes } from "../types";
 import { ItemsList } from "../common/ItemsList";
 import { JokeItem } from "./JokeItem";
@@ -16,12 +16,10 @@ export const JokesList = memo(
     favoriteJokes,
     onFavoriteChange,
     maxLimitReached
-  }: JokesListPros) => (
-    <ItemsList<Joke>
-      items={jokes}
-      keyProp="id"
-      render={joke => {
-        const selected = favoriteJokes.indexOf(joke.id) >= 0;
+  }: JokesListPros) => {
+    const render = useCallback(
+      joke => {
+        const selected = favoriteJokes.includes(joke.id);
         const disabled = maxLimitReached && !selected;
         return (
           <JokeItem
@@ -31,7 +29,9 @@ export const JokesList = memo(
             onSelectedChange={onFavoriteChange}
           />
         );
-      }}
-    />
-  )
+      },
+      [favoriteJokes, maxLimitReached, onFavoriteChange]
+    );
+    return <ItemsList<Joke> items={jokes} keyProp="id" render={render} />;
+  }
 );

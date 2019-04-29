@@ -7,7 +7,7 @@ import { JokesContent } from "./JokesContent";
 
 const RANDOM_JOKES_COUNT = 10;
 const MAX_FAVORITE_JOKES = 10;
-const NEW_FAVORITE_DELAY = 5000;
+const NEW_FAVORITE_DELAY = 1000;
 
 export const Jokes = () => (
   <div className="jokes">

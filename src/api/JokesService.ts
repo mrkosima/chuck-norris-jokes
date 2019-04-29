@@ -1,4 +1,4 @@
-import { Joke, Jokes } from '../types';
+import { Joke, Jokes } from "../types";
 
 const API_PREFIX = "http://api.icndb.com/jokes";
 

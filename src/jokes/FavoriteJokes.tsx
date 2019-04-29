@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import React, { FC, useCallback, useContext, useEffect, useState } from "react";
 
 import { fetchRandomJokes } from "../api/JokesService";
 import { ItemsList } from "../common/ItemsList";
@@ -25,11 +25,11 @@ const useNewFavoriteByTimeout = (timerDelay: number): NewFavoriteByTimeout => {
           fetchRandomJokes(1).then(jokes => {
             if (fetchingFavorite) {
               jokes.forEach(joke => add(joke.id));
+              schedule();
             }
           });
         }, timerDelay);
       };
-
       schedule();
 
       return () => {
@@ -39,9 +39,10 @@ const useNewFavoriteByTimeout = (timerDelay: number): NewFavoriteByTimeout => {
     }
   }, [timerOn, maxLimitReached, timerDelay, add]);
 
-  const onTimerEnableChange = () => {
+  const onTimerEnableChange = useCallback(() => {
     timerOnChange(!timerOn);
-  };
+  }, [timerOn]);
+
   return {
     timerTurnedOn: timerOn,
     timerEnabled: maxLimitReached,
@@ -58,13 +59,18 @@ export const FavoriteJokes: FC<{ newFavoriteDelay: number }> = ({
     timerEnabled,
     onTimerChange
   } = useNewFavoriteByTimeout(newFavoriteDelay);
+  const onTimerButtonClicked = useCallback(() => onTimerChange(), [
+    onTimerChange
+  ]);
 
   return (
     <>
       <button
-        className="button timeout-button"
+        className={`button timeout-button ${
+          timerTurnedOn && !timerEnabled ? "active" : ""
+        }`}
         disabled={timerEnabled}
-        onClick={() => onTimerChange()}
+        onClick={onTimerButtonClicked}
       >
         {timerTurnedOn ? "Stop Timer" : "Start Timer"}
       </button>

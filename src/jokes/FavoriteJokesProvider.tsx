@@ -1,4 +1,4 @@
-import React, { createContext, FC } from "react";
+import React, { createContext, FC, useMemo } from "react";
 
 import { useSavedListInStorage } from "../common/useSavedListInStorage";
 import { Loader } from "../common/Loader";
@@ -21,7 +21,8 @@ export const FavoriteJokesContext = createContext<FavoriteJokesContextType>({
 const FAVORITE_JOKES_STORAGE_KEY = "favoriteJokesIds";
 
 export const FavoriteJokesProvider: FC<{ maxFavorite: number }> = ({
-  maxFavorite, children
+  maxFavorite,
+  children
 }) => {
   const {
     initialized,
@@ -32,20 +33,23 @@ export const FavoriteJokesProvider: FC<{ maxFavorite: number }> = ({
     maxReached
   } = useSavedListInStorage<number>(FAVORITE_JOKES_STORAGE_KEY, maxFavorite);
 
-  if (initialized) {
+  const value = useMemo<FavoriteJokesContextType>(
+    () => ({
+      ids: items,
+      add: add,
+      remove: remove,
+      toggle: toggle,
+      maxLimitReached: maxReached
+    }),
+    [items, add, remove, toggle, maxReached]
+  );
+
+  if (!initialized) {
     return <Loader />;
   }
 
   return (
-    <FavoriteJokesContext.Provider
-      value={{
-        ids: items,
-        add: add,
-        remove: remove,
-        toggle: toggle,
-        maxLimitReached: maxReached
-      }}
-    >
+    <FavoriteJokesContext.Provider value={value}>
       {children}
     </FavoriteJokesContext.Provider>
   );
