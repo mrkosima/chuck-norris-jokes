@@ -49,7 +49,7 @@ export const emailPasswordSchema = Yup.object().shape({
     .email("Should be valid email"),
   password: Yup.string()
     .required("Required")
-    .matches(/^[^<iOl>]+$/, `Should contain "i", "O", or "l" letters`)
+    .matches(/^[^<iOl>]+$/, `Should not contain "i", "O", or "l" letters`)
     .matches(/^[a-z]+$/, "Should contain only lowercase letters")
     .matches(
       /\w*(.)\1\w*(.)\2\w*/,
