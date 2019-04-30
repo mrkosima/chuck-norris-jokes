@@ -1,6 +1,6 @@
 import { Joke, Jokes } from "../types";
 
-const API_PREFIX = "http://api.icndb.com/jokes";
+const API_PREFIX = "https://api.icndb.com/jokes";
 
 interface ApiJoke {
   id: number;
