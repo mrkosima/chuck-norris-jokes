@@ -17,7 +17,7 @@
     "formik": "^1.5.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.0",
+    "react-scripts": "^3.3.0",
     "typescript": "3.4.5",
     "yup": "^0.27.0"
   },
