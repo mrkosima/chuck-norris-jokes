@@ -34,7 +34,8 @@
     "concurrently": "^5.0.2",
     "cypress": "^3.8.0",
     "serve": "^11.2.0",
-    "wait-on": "^3.3.0"
+    "wait-on": "^3.3.0",
+    "xvfb": "^0.3.0"
   },
   "eslintConfig": {
     "extends": "react-app"
