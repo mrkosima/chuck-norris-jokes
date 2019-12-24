@@ -8,6 +8,15 @@
   },
   "author": "Kanstantsin Klimashevich <klimashevich.k@gmail.com>",
   "licence": "UNLICENSE",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "cy:run": "cypress run",
+    "cy:open": "cypress open",
+    "now-build": "react-scripts build && npm run cy:run-build",
+    "cy:run-build": "BROWSER=none concurrently --kill-others \"serve build -l 3000\" \"wait-on http://localhost:3000 && cypress run\" -s first",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
     "@types/jest": "24.0.11",
     "@types/node": "11.13.8",
@@ -21,12 +30,11 @@
     "typescript": "3.4.5",
     "yup": "^0.27.0"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "now-build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+  "devDependencies": {
+    "concurrently": "^5.0.2",
+    "cypress": "^3.8.0",
+    "serve": "^11.2.0",
+    "wait-on": "^3.3.0"
   },
   "eslintConfig": {
     "extends": "react-app"

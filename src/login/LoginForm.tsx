@@ -36,9 +36,12 @@ export const LoginForm = ({ onSubmit }: LoginFormProps) => (
             onChange={handleChange}
             onBlur={handleBlur}
             className={errors.email && touched.email ? "error" : ""}
+            data-testid="email-input"
           />
           {errors.email && touched.email && (
-            <div className="error-description">{errors.email}</div>
+            <div className="error-description" data-testid="email-error">
+              {errors.email}
+            </div>
           )}
           <label htmlFor="password">Password</label>
           <input
@@ -49,11 +52,12 @@ export const LoginForm = ({ onSubmit }: LoginFormProps) => (
             onChange={handleChange}
             onBlur={handleBlur}
             className={errors.password && touched.password ? "error" : ""}
+            data-testid="password-input"
           />
           {errors.password && touched.password && (
-            <div className="error-description">{errors.password}</div>
+            <div className="error-description" data-testid="password-error">{errors.password}</div>
           )}
-          <button type="submit" disabled={isSubmitting}>
+          <button type="submit" disabled={isSubmitting} data-testid="login-submit">
             Login
           </button>
         </form>
