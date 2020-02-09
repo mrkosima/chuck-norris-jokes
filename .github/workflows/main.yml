@@ -5,17 +5,15 @@ jobs:
     runs-on: ubuntu-latest
     container: cypress/browsers:chrome69
     steps: 
-      - uses: actions/checkout@v1
+      - name: Checkout
+        uses: actions/checkout@v1
       
-      - run: 
-        name: "Install dependencies"
-        command: npm install
+      - name: "Install dependencies"
+        run: npm install
 
-      - run: 
-        name: "Production build"
-        command: npm run build
+      - name: "Production build"
+        run: npm run build
 
-      - run:
-        name: "Run e2e tests"
-        command: npm run ci:e2e-tests
+      - name: "Run e2e tests"
+        run: npm run ci:e2e-tests
       
