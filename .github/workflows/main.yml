@@ -1,0 +1,21 @@
+name: Chuck Norris Jokes - workflow 
+on: push
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    container: cypress/browsers:chrome69
+    steps: 
+      - uses: actions/checkout@v1
+      
+      - run: 
+        name: "Install dependencies"
+        command: npm install
+
+      - run: 
+        name: "Production build"
+        command: npm run build
+
+      - run:
+        name: "Run e2e tests"
+        command: npm run ci:e2e-tests
+      

@@ -11,10 +11,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "serve-build": "serve build -l 5000",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
-    "now-build": "react-scripts build && npm run cy:run-build",
-    "cy:run-build": "BROWSER=none concurrently --kill-others \"serve build -l 3000\" \"wait-on http://localhost:3000 && cypress run\" -s first",
+    "now-build": "react-scripts build",
+    "ci:e2e-tests": "CYPRESS_baseUrl=http://localhost:5000 start-server-and-test serve-build http-get://localhost:5000 cy:run",
     "eject": "react-scripts eject"
   },
   "dependencies": {
@@ -33,9 +34,8 @@
   "devDependencies": {
     "concurrently": "^5.0.2",
     "cypress": "^3.8.0",
-    "serve": "^11.2.0",
-    "wait-on": "^3.3.0",
-    "xvfb": "^0.3.0"
+    "serve": "11.3.0",
+    "start-server-and-test": "1.10.8"
   },
   "eslintConfig": {
     "extends": "react-app"
