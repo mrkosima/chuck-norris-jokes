@@ -32,7 +32,6 @@
     "yup": "^0.27.0"
   },
   "devDependencies": {
-    "concurrently": "^5.0.2",
     "cypress": "^3.8.0",
     "serve": "11.3.0",
     "start-server-and-test": "1.10.8"
