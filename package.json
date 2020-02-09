@@ -8,6 +8,16 @@
   },
   "author": "Kanstantsin Klimashevich <klimashevich.k@gmail.com>",
   "licence": "UNLICENSE",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "serve-build": "serve build -l 5000",
+    "cy:run": "cypress run",
+    "cy:open": "cypress open",
+    "now-build": "react-scripts build",
+    "ci:e2e-tests": "CYPRESS_baseUrl=http://localhost:5000 start-server-and-test serve-build http-get://localhost:5000 cy:run",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
     "@types/jest": "24.0.11",
     "@types/node": "11.13.8",
@@ -21,12 +31,10 @@
     "typescript": "3.4.5",
     "yup": "^0.27.0"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "now-build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+  "devDependencies": {
+    "cypress": "^3.8.0",
+    "serve": "11.3.0",
+    "start-server-and-test": "1.10.8"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -42,5 +50,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "engines": {
+    "node": ">=10.3 <=12.x"
   }
 }
